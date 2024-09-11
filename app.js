@@ -29,7 +29,7 @@ app.use(session({
     store: MongoStore.create({ mongoUrl: process.env.MONGODB_URI }),
     cookie: {
         httpOnly:true,
-        secure: process.env.NODE_ENV === 'production' // set to true if using HTTPS
+        secure: true // set to true if using HTTPS
     }
 }));
 
