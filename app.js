@@ -42,7 +42,7 @@ app.set('layout', 'layouts/main');
 
 // Routes
 app.use('/', authRoutes);  // Public routes (login, signup, etc.)
-app.use('/dashboard',authMiddleware,dashboardRoutes);  // Dashboard routes, already protected by middleware
+app.use('/dashboard',authMiddleware.isAuthenticated,dashboardRoutes);  // Dashboard routes, already protected by middleware
 
 // Serve static files
 app.use(express.static(path.join(__dirname, 'public')));
