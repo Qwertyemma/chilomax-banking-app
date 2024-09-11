@@ -1,4 +1,3 @@
-require('dotenv').config(); 
 const express = require('express');
 const session = require('express-session');
 const MongoStore = require('connect-mongo');
@@ -29,7 +28,7 @@ app.use(session({
     store: MongoStore.create({ mongoUrl: process.env.MONGODB_URI }),
     cookie: {
         httpOnly:true,
-        secure: true // set to true if using HTTPS
+        secure: process.env.NODE_ENV === 'production' // set to true if using HTTPS
     }
 }));
 
@@ -49,7 +48,7 @@ app.use('/dashboard', dashboardRoutes);  // Dashboard routes, already protected 
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Set the port from the environment or default to 3000
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 10000;
 app.listen(port, () => {
     console.log(`Server running on port ${port}`);
 });
