@@ -1,9 +1,11 @@
+require('dotenv').config();
 const express = require('express');
 const session = require('express-session');
 const MongoStore = require('connect-mongo');
 const expressLayouts = require('express-ejs-layouts');
 const mongoose = require('mongoose');
 const path = require('path');
+const cookieParser = require('cookie-parser');
 const authRoutes = require('./server/routes/auth');
 const dashboardRoutes = require('./server/routes/dashboard');
 const authMiddleware = require('./server/middleware/authMiddleware');
@@ -19,6 +21,7 @@ mongoose.connect(process.env.MONGODB_URI)
 // Middleware
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(cookieParser()); // Use cookie-parser to parse cookies
 
 // Session Middleware with MongoDB store
 app.use(session({
@@ -27,8 +30,9 @@ app.use(session({
     saveUninitialized: false,
     store: MongoStore.create({ mongoUrl: process.env.MONGODB_URI }),
     cookie: {
-        httpOnly:true,
-        secure: process.env.NODE_ENV === 'production' // set to true if using HTTPS
+        httpOnly: true,
+        secure: false, // Set to true if using HTTPS
+        maxAge: 1000 * 60 * 60 * 24 // 1 day
     }
 }));
 
@@ -42,13 +46,13 @@ app.set('layout', 'layouts/main');
 
 // Routes
 app.use('/', authRoutes);  // Public routes (login, signup, etc.)
-app.use('/dashboard', dashboardRoutes);  // Dashboard routes, already protected by middleware
+app.use('/dashboard', authMiddleware.isAuthenticated, dashboardRoutes);  // Dashboard routes protected by middleware
 
 // Serve static files
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Set the port from the environment or default to 3000
-const port = process.env.PORT || 10000;
+const port = process.env.PORT || 3000;
 app.listen(port, () => {
     console.log(`Server running on port ${port}`);
 });
