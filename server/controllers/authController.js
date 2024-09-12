@@ -42,20 +42,25 @@ exports.processSignup = async (req, res) => {
     let { firstName, lastName, username, email, password, confirmPassword } = req.body;
 
     // Trim inputs
+    console.log('Received signup data:', req.body);
     ({ firstName, lastName, username, email, password, confirmPassword } = trimInputs({ firstName, lastName, username, email, password, confirmPassword }));
 
     if (!firstName || !lastName || !username || !email || !password || !confirmPassword) {
+        console.log('Signup validation failed: missing fields');
         return res.redirect('/signup?error=All fields are required.');
     }
 
     if (password !== confirmPassword) {
+        console.log('Signup validation failed: passwords do not match');
         return res.redirect('/signup?error=Passwords do not match.');
     }
 
     try {
         const existingUser = await User.findOne({ email });
+        console.log('Checking if email already exists:', email);
 
         if (existingUser) {
+            console.log('Signup failed: Email is already in use');
             return res.redirect('/signup?error=Email is already in use.');
         }
 
@@ -71,7 +76,7 @@ exports.processSignup = async (req, res) => {
         });
         await newUser.save();
 
-        console.log('User created successfully.');
+        console.log('User created successfully:', newUser);
         res.redirect('/login');
     } catch (err) {
         console.error('Signup error:', err);
@@ -84,12 +89,15 @@ exports.processLogin = async (req, res) => {
     let { email, password } = req.body;
 
     // Trim inputs
+    console.log('Login attempt:', req.body);
     ({ email, password } = trimInputs({ email, password }));
 
     try {
         const user = await User.findOne({ email });
+        console.log('User found for login:', user);
 
         if (!user) {
+            console.log('Login failed: User not found');
             return res.redirect('/login?error=Invalid email or password.');
         }
 
@@ -97,6 +105,7 @@ exports.processLogin = async (req, res) => {
         const isMatch = await bcrypt.compare(password, user.password);
 
         if (!isMatch) {
+            console.log('Login failed: Password mismatch');
             return res.redirect('/login?error=Invalid email or password.');
         }
 
@@ -105,6 +114,7 @@ exports.processLogin = async (req, res) => {
         req.session.user = user;
 
         console.log('Login successful for:', email);
+        console.log('Redirecting to dashboard');
         res.redirect('/dashboard');
     } catch (err) {
         console.error('Login error:', err);
@@ -123,6 +133,7 @@ exports.processForgotPassword = async (req, res) => {
 
     try {
         const user = await User.findOne({ email });
+        console.log('Processing forgot password for user:', user);
 
         if (!user) {
             return res.redirect('/forgot-password?error=No account found with that email.');
@@ -145,11 +156,14 @@ exports.processForgotPassword = async (req, res) => {
 
         transporter.sendMail(mailOptions, (err) => {
             if (err) {
+                console.log('Error sending email:', err);
                 return res.redirect('/forgot-password?error=Error sending email. Please try again later.');
             }
+            console.log('Password reset email sent successfully');
             res.redirect('/forgot-password?message=Check your email for the reset link.');
         });
     } catch (err) {
+        console.error('Forgot password error:', err);
         res.redirect('/forgot-password?error=An error occurred. Please try again later.');
     }
 };
@@ -166,11 +180,13 @@ exports.showResetPasswordPage = async (req, res) => {
         });
 
         if (!user) {
+            console.log('Reset token invalid or expired');
             return res.render('reset-password', { title: 'Reset Password', error: 'Password reset token is invalid or has expired.', token: null, message: null });
         }
 
         res.render('reset-password', { title: 'Reset Password', token, error: null, message: null });
     } catch (err) {
+        console.error('Error in showing reset password page:', err);
         res.render('reset-password', { title: 'Reset Password', error: 'An error occurred. Please try again later.', token: null, message: null });
     }
 };
@@ -181,6 +197,7 @@ exports.processResetPassword = async (req, res) => {
     const { password, confirmPassword } = req.body;
 
     if (password !== confirmPassword) {
+        console.log('Reset password failed: Passwords do not match');
         return res.render('reset-password', { title: 'Reset Password', error: 'Passwords do not match.', token, message: null });
     }
 
@@ -192,6 +209,7 @@ exports.processResetPassword = async (req, res) => {
         });
 
         if (!user) {
+            console.log('Reset password token is invalid or expired');
             return res.render('reset-password', { title: 'Reset Password', error: 'Password reset token is invalid or has expired.', token, message: null });
         }
 
@@ -202,34 +220,45 @@ exports.processResetPassword = async (req, res) => {
 
         await user.save();
 
+        console.log('Password changed successfully for user:', user);
         res.render('reset-password', { title: 'Reset Password', message: 'Password changed successfully. You can now log in with your new password.', token: null, error: null });
     } catch (err) {
+        console.error('Error in processing reset password:', err);
         res.render('reset-password', { title: 'Reset Password', error: 'An error occurred. Please try again later.', token, message: null });
     }
 };
 
+// Render dashboard page
+exports.showDashboard = (req, res) => {
+    if (!req.session.user) {
+        console.log('No user session found. Redirecting to login');
+        return res.redirect('/login');
+    }
+    console.log('Rendering dashboard for user:', req.session.user.username);
+    res.render('dashboard', { title: 'Dashboard', username: req.session.user.username });
+};
+
+// Logout user
 exports.logout = async (req, res) => {
     if (!req.session.user) {
         return res.redirect('/login');
     }
 
     try {
-        // Find and delete the user from the database
+        console.log('Logging out user:', req.session.user._id);
         await User.findByIdAndDelete(req.session.user._id);
 
-        // Destroy the session
         req.session.destroy((err) => {
             if (err) {
                 console.error('Logout error:', err);
-                return res.redirect('/dashboard'); // Redirect to a safe page if an error occurs
+                return res.redirect('/dashboard');
             }
-            // Clear the session cookie
             res.clearCookie('connect.sid', { path: '/' });
-            // Redirect to login page
+            console.log('Logout successful. Redirecting to login');
             res.redirect('/login');
         });
     } catch (err) {
         console.error('Error deleting user:', err);
-        res.redirect('/dashboard'); // Redirect to a safe page if an error occurs
+        res.redirect('/dashboard?error=Error occurred while logging out. Please try again.');
     }
 };
