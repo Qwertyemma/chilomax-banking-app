@@ -115,7 +115,7 @@ exports.processLogin = async (req, res) => {
 
         console.log('Login successful for:', email);
         console.log('Redirecting to dashboard');
-        res.redirect('/dashboard');
+        res.render('dashboard', { title: 'Dashboard', username: req.session.username });
     } catch (err) {
         console.error('Login error:', err);
         res.redirect('/login?error=An error occurred. Please try again later.');
