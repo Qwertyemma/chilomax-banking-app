@@ -3,97 +3,189 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><%= title %></title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <title>Dashboard - Chilomax Bank</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        /* General Styles */
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
+            background-color: #f4f4f9;
             color: #333;
         }
-        .container {
-            background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            padding: 20px;
-            text-align: center;
-            width: 90%;
-            max-width: 800px;
-        }
         h1 {
-            margin: 0;
-            font-size: 2em;
-            color: #4CAF50;
+            font-weight: 700;
+            font-size: 35px;
+            margin-top: 20px;
+            color: #007bff;
         }
-        p {
-            font-size: 1.2em;
-            margin: 20px 0;
+        .container {
+            margin-top: 20px;
         }
-        a {
-            display: inline-block;
-            padding: 10px 20px;
-            font-size: 1em;
-            color: #fff;
-            background-color: #007BFF;
-            text-decoration: none;
-            border-radius: 5px;
-            transition: background-color 0.3s ease;
-        }
-        a:hover {
-            background-color: #0056b3;
-        }
-        .sections {
-            margin: 20px 0;
-            text-align: left;
-        }
-        .section {
-            margin: 10px 0;
-            padding: 10px;
-            border-radius: 5px;
-            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+
+        /* Dashboard Icons */
+        .dashboard-section {
             display: flex;
-            align-items: center;
+            justify-content: space-around;
+            margin-top: 30px;
+            margin-bottom: 30px;
         }
-        .section i {
-            font-size: 1.5em;
-            margin-right: 10px;
-            color: #007BFF;
+        .dashboard-section .text-center {
+            flex-basis: 30%;
         }
-        .section a {
-            color: #007BFF;
+        .card-icon {
+            font-size: 2rem;
+            color: #fff;
+            padding: 1rem;
+            border-radius: 50%;
+            margin-bottom: 10px;
+        }
+
+        /* Custom Icons Colors */
+        .btn-fund .card-icon {
+            background-color: #28a745;
+        }
+        .btn-data .card-icon {
+            background-color: #17a2b8;
+        }
+        .btn-recharge .card-icon {
+            background-color: #ffc107;
+        }
+        .btn-profile .card-icon {
+            background-color: #6c757d;
+        }
+
+        /* Buttons Styling */
+        .btn-custom {
+            width: 80%; 
+            background-color: #007bff;
+            border-color: #007bff;
+            border-radius: 18px;
+            color: white;
+            font-size: 10px;
+            padding: 8px;
+        }
+        .btn-custom:hover {
+            background-color: #0056b3;
+            border-color: #0056b3;
+        }
+        .btn-custom a {
+            color: white;
             text-decoration: none;
         }
-        .section a:hover {
-            text-decoration: underline;
+
+        /* Text between Icons and Buttons */
+        .action-text {
+            font-size: 12px;
+            font-weight: 500;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        /* Balance and Transactions Section */
+        .balance-section {
+            margin-top: 30px;
+        }
+        .balance-info h4 {
+            font-size: 1.5rem;
+            color: #333;
+        }
+
+        /* Recent Transactions Section */
+        .recent-transactions ul {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        .recent-transactions .list-group-item {
+            padding: 15px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+        }
+        .recent-transactions .list-group-item:nth-child(even) {
+            background-color: #f7f7f7;
+        }
+
+        /* View Button */
+        .btn-view {
+            margin-top: 10px;
+            background-color: #007bff;
+            color: white;
+        }
+        .btn-view:hover {
+            background-color: #0056b3;
         }
     </style>
 </head>
 <body>
+
     <div class="container">
-        <h1>Welcome to your dashboard, <%= username %></h1>
-        <a href="/logout">Logout</a>
-        
-        <div class="sections">
-            <div class="section">
-                <i class="fas fa-user"></i>
-                <a href="/profile">View Profile</a>
+        <h1 class="text-center">Dashboard - Chilomax Bank</h1>
+
+        <!-- Icons and Actions Section -->
+        <div class="dashboard-section">
+            <div class="text-center">
+                <div class="btn-fund">
+                    <i class="fas fa-money-bill-wave card-icon"></i>
+                </div>
+                <p class="action-text">Fund account</p>
+                <button class="btn btn-success btn-custom"><a href="/dashboard/fund-account">Fund</a></button>
             </div>
-            <div class="section">
-                <i class="fas fa-cogs"></i>
-                <a href="/settings">Settings</a>
+            <div class="text-center">
+                <div class="btn-data">
+                    <i class="fas fa-wifi card-icon"></i>
+                </div>
+                <p class="action-text">Buy data bundles</p>
+                <button class="btn btn-info btn-custom"><a href="/dashboard/buy-data">Buy Data</a></button>
             </div>
-            <div class="section">
-                <i class="fas fa-question-circle"></i>
-                <a href="/help">Help</a>
+            <div class="text-center">
+                <div class="btn-recharge">
+                    <i class="fas fa-mobile-alt card-icon"></i>
+                </div>
+                <p class="action-text">Purchase airtime</p>
+                <button class="btn btn-warning btn-custom"><a href="/dashboard/buy-airtime">Buy Airtime</a></button>
+            </div>
+            <!-- Profile button -->
+            <div class="text-center">
+                <div class="btn-profile">
+                    <i class="fas fa-user card-icon"></i>
+                </div>
+                <p class="action-text">Profile</p>
+                <button class="btn btn-secondary btn-custom"><a href="/dashboard/profile">Profile</a></button>
             </div>
         </div>
+
+        <!-- Balance Section -->
+        <div class="balance-section">
+            <div class="row mb-4">
+                <div class="col-md-6 balance-info">
+                    <h4>Balance: ₦<%= balance %></h4>
+                </div>
+                <div class="col-md-6 text-end">
+                    <a href="/dashboard/transactions" class="btn btn-primary btn-view">View All Transactions</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Transactions Section -->
+        <div class="recent-transactions mb-5">
+            <h4>Recent Transactions</h4>
+            <ul class="list-group">
+                <% transactions.slice(-3).forEach(function(transaction) { %>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <div>
+                            <strong><%= transaction.date %></strong> - <%= transaction.type %> - ₦<%= transaction.amount %>
+                        </div>
+                        <a href="/dashboard/transaction-details/<%= transaction.id %>" class="text-info">Details</a>
+                    </li>
+                <% }) %>
+            </ul>
+        </div>
     </div>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

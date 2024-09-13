@@ -24,7 +24,9 @@ const trimInputs = (inputs) => {
 
 // Render home page
 exports.showHomePage = (req, res) => {
-    res.render('home', { title: 'Home' });
+    // Check if user is logged in and has a session
+    const username = req.session.user ? req.session.user.username : 'Guest'; // Use 'Guest' if the user is not logged in
+    res.render('home', { title: 'Welcome to Chilomax Bank', username });
 };
 
 // Render signup page

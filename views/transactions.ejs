@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transactions</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-4">
+        <h2>All Transactions</h2>
+        <ul class="list-group">
+            <% transactions.forEach(function(transaction) { %>
+                <li class="list-group-item">
+                    <%= transaction.date %> - <%= transaction.type %> - ₦<%= transaction.amount %>
+                    <a href="/transaction-details/<%= transaction.id %>" class="float-right">Details</a>
+                </li>
+            <% }) %>
+        </ul>
+        <a href="/dashboard" class="btn btn-secondary mt-3">Back to Dashboard</a>
+    </div>
+</body>
+</html>

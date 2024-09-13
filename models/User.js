@@ -33,6 +33,25 @@ const userSchema = new Schema({
   },
   resetPasswordToken: String,
   resetPasswordExpires: Date,
+  balance: {
+    type: Number,
+    default: 0
+  },
+  transactions: [{
+    type: {
+      type: String,
+      enum: ['Data Purchase', 'Airtime Purchase','Withdrawal', 'Deposit', 'Fund Account'],
+      required: true
+    },
+    amount: {
+      type: Number,
+      required: true
+    },
+    date: {
+      type: Date,
+      default: Date.now
+    }
+  }]
 }, {
   timestamps: true,
 });

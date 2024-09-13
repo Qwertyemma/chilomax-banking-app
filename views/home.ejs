@@ -3,87 +3,130 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home - MyApp</title>
-    <link rel="stylesheet" href="/styles/styles.css">
+    <title>Welcome to Chilomax Bank</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        /* Inline styles for demonstration purposes; ideally, use an external CSS file */
         body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f9;
-            color: #333;
+            background-color: #f4f7f6;
+            margin-top: 0;
         }
-
-        .container {
-            width: 80%;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
+        .navbar-custom {
+            background-color: #007bff;
+        }
+        .navbar-custom .navbar-brand,
+        .navbar-custom .nav-link {
+            color: #fff;
+        }
+        .navbar-custom .nav-link:hover {
+            color: #d3d3d3;
+        }
+        .navbar-toggler {
+            color: #fff;
+            border: none;
+        }
+        .hero-section {
+            background: #007bff;
+            color: #fff;
+            padding: 40px 20px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
             text-align: center;
         }
-
-        header {
-            background-color: #007bff;
+        .hero-section h1 {
+            font-size: 2rem;
+            font-weight: 700;
+        }
+        .hero-section p {
+            font-size: 1.1rem;
+            font-weight: 400;
+        }
+        .btn-custom {
+            background-color: #28a745;
             color: #fff;
-            padding: 10px 0;
-            margin-bottom: 20px;
-        }
-
-        header h1 {
-            margin: 0;
-            font-size: 2em;
-        }
-
-        .content {
-            padding: 20px;
-            background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-
-        a {
-            text-decoration: none;
-            color: #007bff;
-        }
-
-        a:hover {
-            text-decoration: underline;
-        }
-
-        .links {
-            margin-top: 20px;
-        }
-
-        .links a {
-            display: inline-block;
-            margin: 0 10px;
+            border-radius: 25px;
             padding: 10px 20px;
-            background-color: #007bff;
+            font-size: 1.1rem;
+            text-decoration: none;
+        }
+        .btn-custom:hover {
+            background-color: #218838;
             color: #fff;
-            border-radius: 5px;
-            transition: background-color 0.3s;
+        }
+        .btn-link {
+            color: #fff;
+            font-size: 1rem;
+            margin: 0;
+        }
+        .btn-link:hover {
+            color: #d3d3d3;
+        }
+        .btn-icon {
+            margin-right: 8px;
         }
 
-        .links a:hover {
-            background-color: #0056b3;
+        /* Responsive adjustments */
+        @media (max-width: 576px) {
+            .navbar-brand {
+                font-size: 16px;
+            }
+            .hero-section {
+                padding: 30px 10px;
+            }
+            .hero-section h1 {
+                font-size: 18px;
+            }
+            .hero-section p {
+                font-size: 16px;
+            }
+            .btn-custom {
+                font-size: 1rem;
+                padding: 8px 16px;
+            }
+            .navbar-nav {
+                text-align: center;
+                width: 100%;
+            }
+            .navbar-nav .nav-item {
+                margin-bottom: 10px;
+                width: 100%;
+            }
+            .navbar-toggler {
+                color: #fff;
+            }
         }
     </style>
 </head>
 <body>
-    <header>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-custom">
+        <a class="navbar-brand" href="#"><i class="fas fa-university"></i> Chilomax Bank</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"><i class="fas fa-bars"></i></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="btn btn-custom btn-sm mx-1" href="/login"><i class="fas fa-sign-in-alt btn-icon"></i> Login</a>
+                </li>
+                <li class="nav-item">
+                    <a class="btn btn-custom btn-sm mx-1" href="/signup"><i class="fas fa-user-plus btn-icon"></i> Sign Up</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
         <div class="container">
-            <h1>Welcome to MyApp!</h1>
+            <h1><i class="fas fa-university"></i> Welcome to Chilomax Bank</h1>
+            <p class="mt-3">Hi, <%= username %>! Manage your airtime, data, and transactions with ease.</p>
+            <a href="/dashboard" class="btn btn-custom btn-lg mt-4"><i class="fas fa-tachometer-alt btn-icon"></i> Go to Dashboard</a>
         </div>
-    </header>
-    <div class="container">
-        <div class="content">
-            <p>We're glad to have you here. Explore our platform and enjoy the features we offer.</p>
-            <div class="links">
-                <a href="/login">Login</a>
-                <a href="/signup">Sign Up</a>
-            </div>
-        </div>
-    </div>
+    </section>
+
+    <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

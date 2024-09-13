@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fund Account</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .form-container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+        }
+        .form-header {
+            margin-bottom: 20px;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 10px;
+        }
+        .btn-custom {
+            background-color: #007bff;
+            color: #fff;
+        }
+        .btn-custom:hover {
+            background-color: #0056b3;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-4">
+        <div class="form-container">
+            <div class="form-header">
+                <h2 class="mb-4">Fund Your Account</h2>
+                <p class="lead">Balance: ₦<%= balance %></p>
+            </div>
+            <form action="/dashboard/fund-account" method="POST">
+                <div class="form-group">
+                    <label for="bank">Select Bank:</label>
+                    <select class="form-control" id="bank" name="bank" required>
+                        <option value="" disabled selected>Select a bank</option>
+                        <option value="access">Access Bank</option>
+                        <option value="gtb">Guaranty Trust Bank</option>
+                        <option value="uba">United Bank for Africa</option>
+                        <option value="zenith">Zenith Bank</option>
+                        <option value="fcmb">FCMB</option>
+                        <option value="stanbic">Stanbic IBTC</option>
+                        <option value="firstbank">First Bank</option>
+                        <option value="ecobank">Ecobank</option>
+                        <!-- Add more banks as needed -->
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="amount">Enter amount to fund:</label>
+                    <input type="number" class="form-control" id="amount" name="amount" min="1" required>
+                </div>
+                <% if (typeof error !== 'undefined') { %>
+                    <div class="alert alert-danger">
+                        <%= error %>
+                    </div>
+                <% } %>
+                <button type="submit" class="btn btn-custom">Fund Account</button>
+            </form>
+            <a href="/dashboard" class="btn btn-secondary mt-3">Back to Dashboard</a>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
