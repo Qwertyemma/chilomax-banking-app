@@ -84,7 +84,6 @@ const userSchema = new Schema({
     confirmed: { 
       type: Boolean, 
       default: false 
-      default: false 
     },
     date: { 
       type: Date, 
