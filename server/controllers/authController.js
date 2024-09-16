@@ -104,10 +104,18 @@ exports.processLogin = async (req, res) => {
 
         // Set session data after successfully authenticated
         req.session.isAuthenticated = true;
-        req.session.user = user;
-
-        console.log('Login successful for:', email);
-        res.redirect('/dashboard');
+        req.session.user = {
+            _id: user._id,
+            username: user.username,
+            isAdmin: user.isAdmin  // This ensures isAdmin is stored in session
+        };
+        // Redirect to the admin dashboard or another route
+        if (user.isAdmin) {
+            return res.redirect('/dashboard');
+        } else {
+           console.log('Login successful for:', email);
+           res.redirect('/dashboard');
+        }
     } catch (err) {
         console.error('Login error:', err);
         res.redirect('/login?error=An error occurred. Please try again later.');

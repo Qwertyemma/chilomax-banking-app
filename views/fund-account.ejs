@@ -1,73 +1,85 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fund Account</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <title>Fund Account - Chilomax Bank</title>
     <style>
-        .form-container {
-            max-width: 600px;
-            margin: 0 auto;
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
             padding: 20px;
-            border: 1px solid #ddd;
+            background: #fff;
             border-radius: 8px;
-            background-color: #f9f9f9;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
-        .form-header {
-            margin-bottom: 20px;
-            border-bottom: 1px solid #ddd;
-            padding-bottom: 10px;
+
+        h1, h2, h3 {
+            color: #2c3e50;
         }
-        .btn-custom {
-            background-color: #007bff;
-            color: #fff;
+
+        .balance {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #27ae60;
         }
-        .btn-custom:hover {
-            background-color: #0056b3;
-            color: #fff;
+
+        .account-info {
+            margin-top: 20px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #fafafa;
+        }
+
+        .account-info p {
+            margin: 10px 0;
+        }
+
+        .error-message {
+            color: #e74c3c;
+            font-size: 1em;
+        }
+
+        .note {
+            margin-top: 20px;
+            font-size: 1.1em;
+            color: #3498db;
         }
     </style>
 </head>
+
 <body>
-    <div class="container mt-4">
-        <div class="form-container">
-            <div class="form-header">
-                <h2 class="mb-4">Fund Your Account</h2>
-                <p class="lead">Balance: ₦<%= balance %></p>
+    <div class="container">
+        <h1>Fund Your Wallet</h1>
+
+        <p>Your current balance: <span class="balance"><%= balance %></span></p>
+
+        <% if (!userAccountNumber) { %>
+            <p>Generating your virtual account. Please wait...</p>
+        <% } else { %>
+            <div class="account-info">
+                <h2>Transfer to the following bank account:</h2>
+                <p><strong>Bank:</strong> <%= userAccountBank %></p>
+                <p><strong>Account Number:</strong> <%= userAccountNumber %></p>
             </div>
-            <form action="/dashboard/fund-account" method="POST">
-                <div class="form-group">
-                    <label for="bank">Select Bank:</label>
-                    <select class="form-control" id="bank" name="bank" required>
-                        <option value="" disabled selected>Select a bank</option>
-                        <option value="access">Access Bank</option>
-                        <option value="gtb">Guaranty Trust Bank</option>
-                        <option value="uba">United Bank for Africa</option>
-                        <option value="zenith">Zenith Bank</option>
-                        <option value="fcmb">FCMB</option>
-                        <option value="stanbic">Stanbic IBTC</option>
-                        <option value="firstbank">First Bank</option>
-                        <option value="ecobank">Ecobank</option>
-                        <!-- Add more banks as needed -->
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="amount">Enter amount to fund:</label>
-                    <input type="number" class="form-control" id="amount" name="amount" min="1" required>
-                </div>
-                <% if (typeof error !== 'undefined') { %>
-                    <div class="alert alert-danger">
-                        <%= error %>
-                    </div>
-                <% } %>
-                <button type="submit" class="btn btn-custom">Fund Account</button>
-            </form>
-            <a href="/dashboard" class="btn btn-secondary mt-3">Back to Dashboard</a>
-        </div>
+
+            <p class="note">Once your transfer is complete, your wallet will be automatically updated.</p>
+
+            <% if (error) { %>
+                <p class="error-message"><%= error %></p>
+            <% } %>
+        <% } %>
     </div>
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
+
 </html>

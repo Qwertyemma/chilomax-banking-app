@@ -13,7 +13,7 @@
             <% transactions.forEach(function(transaction) { %>
                 <li class="list-group-item">
                     <%= transaction.date %> - <%= transaction.type %> - ₦<%= transaction.amount %>
-                    <a href="/transaction-details/<%= transaction.id %>" class="float-right">Details</a>
+                    <a href="/dashboard/transaction-details/<%= transaction.id %>" class="float-right">Details</a>
                 </li>
             <% }) %>
         </ul>

@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
         .form-container {
-            max-width: 500px;
+            max-width: 600px;
             margin: 0 auto;
             padding: 20px;
             border: 1px solid #ddd;
@@ -33,7 +33,7 @@
     <div class="container mt-4">
         <div class="form-container">
             <div class="form-header">
-                <h2 class="mb-4">Buy Airtime</h2>
+                <h2>Buy Airtime</h2>
                 <p class="lead">Balance: ₦<%= balance %></p>
             </div>
             <form action="/dashboard/buy-airtime" method="POST">
@@ -48,21 +48,27 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <label for="amount">Enter amount for airtime:</label>
-                    <input type="number" class="form-control" id="amount" name="amount" min="1" required>
+                    <label for="amount">Select Airtime Amount:</label>
+                    <select class="form-control" id="amount" name="amount" required>
+                        <option value="" disabled selected>Select an amount</option>
+                        <option value="100">₦100</option>
+                        <option value="200">₦200</option>
+                        <option value="500">₦500</option>
+                        <option value="1000">₦1000</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="phone">Enter Phone Number:</label>
+                    <input type="text" class="form-control" id="phone" name="phone" required>
                 </div>
                 <% if (typeof error !== 'undefined') { %>
                     <div class="alert alert-danger">
                         <%= error %>
                     </div>
                 <% } %>
-                <button type="submit" class="btn btn-custom">Buy Airtime</button>
+                <button type="submit" class="btn btn-custom btn-block">Buy Airtime</button>
             </form>
-            <a href="/dashboard" class="btn btn-secondary mt-3">Back to Dashboard</a>
         </div>
     </div>
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

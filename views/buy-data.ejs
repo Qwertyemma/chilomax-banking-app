@@ -48,8 +48,8 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <label for="amount">Select data package:</label>
-                    <select class="form-control" id="amount" name="amount" required>
+                    <label for="plan">Select Data Package:</label>
+                    <select class="form-control" id="plan" name="plan" required>
                         <option value="" disabled selected>Select a package</option>
                         <option value="100">₦100 - 1GB</option>
                         <option value="200">₦200 - 2GB</option>
@@ -57,18 +57,18 @@
                         <option value="1000">₦1000 - 10GB</option>
                     </select>
                 </div>
+                <div class="form-group">
+                    <label for="phone">Enter Phone Number:</label>
+                    <input type="text" class="form-control" id="phone" name="phone" required>
+                </div>
                 <% if (typeof error !== 'undefined') { %>
                     <div class="alert alert-danger">
                         <%= error %>
                     </div>
                 <% } %>
-                <button type="submit" class="btn btn-custom">Purchase Data</button>
+                <button type="submit" class="btn btn-custom">Buy Data</button>
             </form>
-            <a href="/dashboard" class="btn btn-secondary mt-3">Back to Dashboard</a>
         </div>
     </div>
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

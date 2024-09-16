@@ -1,61 +1,98 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-// Define the User schema
+// User Schema
 const userSchema = new Schema({
-  firstName: {
-    type: String,
-    required: true,
-    trim: true,
+  firstName: { 
+    type: String, 
+    required: true, 
+    trim: true 
   },
-  lastName: {
-    type: String,
-    required: true,
-    trim: true,
+  lastName: { 
+    type: String, 
+    required: true, 
+    trim: true 
   },
-  username: {
-    type: String,
-    required: true,
-    unique: true,
-    trim: true,
+  username: { 
+    type: String, 
+    required: true, 
+    unique: true, 
+    trim: true 
   },
-  email: {
-    type: String,
-    required: true,
-    unique: true,
-    trim: true,
-    lowercase: true,
-    match: [/^\S+@\S+\.\S+$/, 'Please enter a valid email address.']
+  email: { 
+    type: String, 
+    required: true, 
+    unique: true, 
+    trim: true, 
+    lowercase: true 
   },
-  password: {
-    type: String,
-    required: true,
+  password: { 
+    type: String, 
+    required: true 
   },
-  resetPasswordToken: String,
-  resetPasswordExpires: Date,
-  balance: {
-    type: Number,
-    default: 0
+  balance: { 
+    type: Number, 
+    default: 0 
+  },
+  isAdmin: { 
+    type: Boolean, 
+    default: false 
+  },
+  accountNumber: { 
+    type: String, 
+    unique: true, 
+    required: true
+  }, // Unique account number for each user
+  virtualAccountNumber: { 
+    type: String, 
+    default: null 
+  },
+  virtualAccountBank: { 
+    type: String, 
+    default: null 
   },
   transactions: [{
     type: {
       type: String,
-      enum: ['Data Purchase', 'Airtime Purchase','Withdrawal', 'Deposit', 'Fund Account'],
+      enum: ['Data Purchase', 'Airtime Purchase', 'Withdrawal', 'Deposit'],
       required: true
     },
-    amount: {
-      type: Number,
-      required: true
+    amount: { 
+      type: Number, 
+      required: true 
     },
-    date: {
-      type: Date,
-      default: Date.now
+    provider: String,  // Optional, for mobile services like airtime/data
+    mobile_number: String,  // Optional for mobile-related transactions
+    plan: String,  // Optional, if the transaction involves a specific plan
+    bank: String,  // Optional, for bank-related transactions
+    reference: String,  // For transaction tracking
+    date: { 
+      type: Date, 
+      default: Date.now 
+    }
+  }],
+  bankTransfers: [{
+    amount: { 
+      type: Number 
+    },
+    transactionId: { 
+      type: String 
+    },
+    bankName: { 
+      type: String 
+    },
+    confirmed: { 
+      type: Boolean, 
+      default: false 
+      default: false 
+    },
+    date: { 
+      type: Date, 
+      default: Date.now 
     }
   }]
-}, {
-  timestamps: true,
+}, { 
+  timestamps: true 
 });
 
-const User = mongoose.model('User', userSchema);
-
-module.exports = User;
+module.exports = mongoose.model('User', userSchema);

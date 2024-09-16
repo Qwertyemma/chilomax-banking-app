@@ -21,7 +21,15 @@ router.post('/update-profile', authMiddleware.isAuthenticated, dashboardControll
 // Transactions
 router.get('/transactions', authMiddleware.isAuthenticated, dashboardController.showTransactions);
 router.get('/transaction-details/:id', authMiddleware.isAuthenticated, dashboardController.showTransactionDetails);
+
+// Fund Account
 router.get('/fund-account', authMiddleware.isAuthenticated, dashboardController.showFundAccount);
 router.post('/fund-account', authMiddleware.isAuthenticated, dashboardController.processFundAccount);
+
+// Webhook for Fund Account
+router.post('/fund-account-webhook', dashboardController.fundAccountWebhook);
+
+// Generate Virtual Account
+router.get('/generate-virtual-account', authMiddleware.isAuthenticated, dashboardController.generateVirtualAccount);
 
 module.exports = router;
